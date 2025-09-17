@@ -1,5 +1,6 @@
 import {Router} from "express";
-import { login, signUp } from "../controllers/auth.js";
+import { login, signUp } from "../controllers/auth.mjs";
+
 const authRoutes:Router=Router()
 
 authRoutes.post("/login",login)

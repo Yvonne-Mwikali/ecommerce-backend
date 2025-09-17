@@ -1,5 +1,6 @@
 import { Router } from "express" 
-import authRoutes from "./auth.js"
+import authRoutes from "./auth.mjs";
+
 const rootRouter:Router=Router()
 rootRouter.use("/auth",authRoutes)
 
