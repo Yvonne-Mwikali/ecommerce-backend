@@ -5,8 +5,12 @@ import { BadRequest } from "../exceptions/bad-request.mjs";
 import { ErrorCodes } from "../exceptions/root.mjs";
 import { prismaClient } from "../../index.mjs";
 import { JWT_SECRET } from "../secrets.mjs";
+import { UnprocessableEntity } from "../exceptions/validation.mjs";
+import { signUpSchema } from "../schema/users.js";
 export const signUp=async (req:Request,res:Response,next:NextFunction)=>{
-    const{email,password,name}=req.body
+    try{
+        signUpSchema.parse(req.body)
+  const{email,password,name}=req.body
     let user=await prismaClient.user.findFirst({where:{email}})
     if (user){
         next( new BadRequest("user already exists",ErrorCodes.USER_ALREADY_EXISTS)        )
@@ -17,6 +21,10 @@ export const signUp=async (req:Request,res:Response,next:NextFunction)=>{
         }
     })
     res.json(user)
+    }catch(err:any){
+        next(new UnprocessableEntity("validation error",err?.issue,ErrorCodes.VALIDATION_ERROR))
+    }
+  
 }
 export const login =async (req: Request, res: Response,next:NextFunction) => {
     const{email,password}=req.body

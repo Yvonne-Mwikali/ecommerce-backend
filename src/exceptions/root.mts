@@ -1,10 +1,10 @@
 //message ,status code ,error code ,error
 export class HttpException extends Error{
     message:string
-    statusCode:number
+    statusCode:StatusCodes
     errorCode:ErrorCodes
     error:any
-    constructor(message:string,statusCode:number,errorCode:ErrorCodes,error:any){
+    constructor(message:string,statusCode:StatusCodes,errorCode:ErrorCodes,error:any){
         super(message)
         this.message=message
         this.statusCode=statusCode
@@ -31,5 +31,6 @@ export enum StatusCodes{
     UNAUTHORIZED=401,
     FORBIDDEN=403,
     NOT_FOUND=404,
+    UNPROCESSABLE_ENTITY=422,
     INTERNAL_SERVER_ERROR=500
 }
